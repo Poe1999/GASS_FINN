@@ -1,0 +1,91 @@
+/* level2.css - только специфичные стили для уровня 2 */
+:root {
+  --bg1: #f0f8ff;
+  --bg2: #e6f3ff;
+  --gazik: #4caf50;
+}
+
+.cell.yellow-zone {
+  background: linear-gradient(135deg, #fff9c4, var(--warning)) !important;
+  color: #5d4037 !important;
+  font-weight: 800;
+  border: 2px solid #ffb74d !important;
+  box-shadow: 0 2px 8px rgba(255, 167, 38, 0.25) !important;
+  animation: pulse-yellow 2s infinite;
+}
+
+@keyframes pulse-yellow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.cell.gazik {
+  background: #fff;
+  border: 2px solid #e8f4ff;
+  box-shadow: 0 2px 6px rgba(42, 122, 222, 0.15);
+  animation: gazik-pulse 1.5s infinite alternate;
+  position: relative;
+}
+
+.cell.gazik::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../images/gazik.png');
+  background-size: 70% 70%;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 2;
+}
+
+@keyframes gazik-pulse {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.05); }
+  50% { transform: scale(0.98); }
+  75% { transform: scale(1.03); }
+}
+
+.gazik-floating {
+  color: #2a7ade !important;
+  text-shadow: 0 0 8px rgba(42, 122, 222, 0.7);
+  animation: float-text 1s ease-in-out;
+}
+
+@keyframes float-text {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-70px) scale(1);
+    opacity: 0;
+  }
+}
+
+.product-info {
+  text-align: center;
+  margin: 12px 0;
+  padding: 12px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.product-info h4 {
+  margin: 0 0 8px 0;
+  color: var(--accent);
+}
+
+.product-info p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.cell.yellow-zone span {
+  display: block;
+  text-align: center;
+  width: 100%;
+}

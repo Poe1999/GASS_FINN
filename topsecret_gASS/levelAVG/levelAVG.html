@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#2a7ade">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FinGas">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-TileColor" content="#2a7ade">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>FinGas — Уровень ?</title>
+    <link rel="stylesheet" href="css/levelAVG.css">
+</head>
+<body>
+<header class="hud">
+    <div class="hud-item">Игрок: <span id="playerName">Игрок</span></div>
+    <div class="hud-item clickable" id="finGasContainer">
+        ФинГаз: <span id="finGas">75</span>
+        <span class="plus-icon" title="Конвертировать газики в ФинГаз">+</span>
+    </div>
+    <div class="hud-item">Рублики: <span id="rubles">0</span></div>
+</header>
+
+<main class="game-area">
+    <!-- Временное диалоговое окно поверх игрового поля -->
+    <div id="dialogOverlay" class="dialog-overlay">
+        <div class="dialog-box-overlay">
+            <div class="character-overlay">
+                <img src="images/finn_head_with_mouth.png" alt="Финн" class="char-img">
+                <div class="char-name">Финн</div>
+            </div>
+            <p id="dialogTextOverlay">ААААААААААААААААААА!</p>
+            <button id="nextBtnOverlay" class="btn">Далее</button>
+        </div>
+    </div>
+
+    <!-- Игровое поле -->
+    <section class="board-container">
+        <div id="board" class="board" aria-label="Игровое поле"></div>
+    </section>
+
+    <!-- Мобильная панель выбора труб -->
+    <div id="mobilePipePanel" class="mobile-pipe-panel">
+        <div class="pipe-choice-mobile">
+            <p>Выберите трубу:</p>
+            <div class="pipe-buttons-mobile">
+                <button class="btn" data-type="H" onclick="choosePipe('H')">
+                    <img src="images/H.png" alt="горизонтальная" class="pipe-img">
+                </button>
+                <button class="btn" data-type="V" onclick="choosePipe('V')">
+                    <img src="images/V.png" alt="вертикальная" class="pipe-img">
+                </button>
+                <button class="btn" data-type="LU" onclick="choosePipe('LU')">
+                    <img src="images/LU.png" alt="верх-лево" class="pipe-img">
+                </button>
+                <button class="btn" data-type="UR" onclick="choosePipe('UR')">
+                    <img src="images/UR.png" alt="верх-право" class="pipe-img">
+                </button>
+                <button class="btn" data-type="LD" onclick="choosePipe('LD')">
+                    <img src="images/LD.png" alt="низ-лево" class="pipe-img">
+                </button>
+                <button class="btn" data-type="RD" onclick="choosePipe('RD')">
+                    <img src="images/RD.png" alt="низ-право" class="pipe-img">
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Модальные окна -->
+<div id="quizModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+        <h3>Зона</h3>
+        <p id="quizQuestion">Вопрос по финансовой грамотности</p>
+        <div class="answers" id="quizAnswers"></div>
+    </div>
+</div>
+
+<div id="productModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+        <h3>Продукт банка</h3>
+        <p id="productText">Ознакомьтесь с продуктом банка</p>
+        <div class="product-info" id="productInfo"></div>
+        <div style="margin-top:10px">
+            <button id="productClose" class="btn">Понятно</button>
+        </div>
+    </div>
+</div>
+
+<div id="deadEndModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+        <h3>Вы зашли в тупик!</h3>
+        <p>Хотите отменить последний ход за 15 ₽?</p>
+        <button id="undoYes" class="btn">Да</button>
+        <button id="undoNo" class="btn ghost">Нет</button>
+    </div>
+</div>
+</div>
+
+<div id="gameOverModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+        <h3>Вы потеряли ФинГаз!</h3>
+        <p>Попробуйте снова.</p>
+        <button id="restartBtn" class="btn">Начать сначала</button>
+        <button id="toMenuBtn" class="btn ghost">В главное меню</button>
+    </div>
+</div>
+</div>
+
+<div id="resultModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+        <h3>Уровень ? завершён</h3>
+        <p id="resultNote"></p>
+        <div id="bonusInfo"></div>
+        <div style="margin-top:12px; display: flex; gap: 10px; justify-content: center;">
+            <button id="exitToMenu" class="btn ghost">В главное меню</button>
+            <button id="nextLevelResult" class="btn">Следующий уровень</button>
+        </div>
+    </div>
+</div>
+
+<div id="dailyModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+        <h3>Ежедневные награды</h3>
+        <div class="rewards-grid">
+            <div class="reward-day"><span>День 1</span><br>+10 ⚡</div>
+            <div class="reward-day"><span>День 2</span><br>+20 ₽</div>
+            <div class="reward-day"><span>День 3</span><br>+15 ⚡</div>
+            <div class="reward-day"><span>День 4</span><br>+30 ₽</div>
+            <div class="reward-day"><span>День 5</span><br>+25 ⚡</div>
+            <div class="reward-day"><span>День 6</span><br>+50 ₽</div>
+            <div class="reward-day"><span>День 7</span><br>+100 ⚡ +100 ₽</div>
+        </div>
+        <div style="margin-top:12px; display: flex; gap: 10px; justify-content: center;">
+            <button id="closeDaily" class="btn ghost">На главную</button>
+            <button id="nextLevel" class="btn">Следующий уровень</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модалка конвертации газиков -->
+<div id="convertGazikModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+        <h3>Конвертация Газиков</h3>
+        <p>Ты можешь обменять <b>1 Газик</b> на <b>25 ФинГаза</b>.</p>
+        <p>Сейчас у тебя: <span id="gaziksCountDisplay">0</span> газиков</p>
+        <div style="margin-top:10px; display:flex; gap:10px; justify-content:center;">
+            <button id="convertOneGazik" class="btn">Обменять 1 Газик</button>
+            <button id="closeConvertModal" class="btn ghost">Отмена</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/levelAVG.js"></script>
+</body>
+</html>

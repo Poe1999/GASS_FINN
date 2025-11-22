@@ -1,0 +1,25 @@
+/* level1.css - только специфичные стили для уровня 1 */
+:root {
+  --bg1: #f0f8ff;
+  --bg2: #e6f3ff;
+}
+
+.cell.red-zone {
+  background: linear-gradient(135deg, #ffc4c4, var(--danger)) !important;
+  color: #5d1a1a !important;
+  font-weight: 800;
+  border: 2px solid #ff6b6b !important;
+  box-shadow: 0 2px 8px rgba(224, 70, 70, 0.3) !important;
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.cell.red-zone span {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
